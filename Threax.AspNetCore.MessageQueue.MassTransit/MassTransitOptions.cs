@@ -22,6 +22,9 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         public RegistrationType RegistrationType { get; set; }
     }
 
+    /// <summary>
+    /// Options for mass transit. Also makes it easier to register consumers and sagas vs the default implementation.
+    /// </summary>
     public class MassTransitOptions
     {
         /// <summary>
@@ -45,11 +48,14 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         /// </summary>
         public String QueueName { get; set; }
 
-        /// <summary>
-        /// Set this to true to make the connection to rabbitmq write only, this will prevent mass transit for opening a queue
-        /// for this app. Default: false
-        /// </summary>
-        public bool WriteOnly { get; set; }
+        [JsonIgnore]
+        internal bool OpenQueue
+        {
+            get
+            {
+                return Consumers.Count != 0 && Sagas.Count != 0;
+            }
+        }
 
         [JsonIgnore]
         internal List<MassTransitServiceRegistration> Consumers { get; private set; } = new List<MassTransitServiceRegistration>();
@@ -58,7 +64,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         internal List<MassTransitServiceRegistration> Sagas { get; private set; } = new List<MassTransitServiceRegistration>();
 
         /// <summary>
-        /// Add a consumer as a singleton. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a consumer as a singleton. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the consumer to add.</typeparam>
         public void AddSingletonConsumer<T>() where T : class, IConsumer
@@ -71,7 +77,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         }
 
         /// <summary>
-        /// Add a consumer as a scoped instance. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a consumer as a scoped instance. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the consumer to add.</typeparam>
         public void AddScopedConsumer<T>() where T : class, IConsumer
@@ -84,7 +90,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         }
 
         /// <summary>
-        /// Add a consumer as a transient instance. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a consumer as a transient instance. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the consumer to add.</typeparam>
         public void AddTransientConsumer<T>() where T : class, IConsumer
@@ -97,7 +103,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         }
 
         /// <summary>
-        /// Add a saga as a singleton instance. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a saga as a singleton instance. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the saga to add.</typeparam>
         public void AddSingletonSaga<T>() where T : class, ISaga
@@ -110,7 +116,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         }
 
         /// <summary>
-        /// Add a saga as a scoped instance. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a saga as a scoped instance. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the saga to add.</typeparam>
         public void AddScopedSaga<T>() where T : class, ISaga
@@ -123,7 +129,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         }
 
         /// <summary>
-        /// Add a saga as a transient instance. It must inherit from IConsumer<T> where T is the message you want to respond ot.
+        /// Add a saga as a transient instance. It must inherit from IConsumer&lt;T&gt; where T is the message you want to respond ot.
         /// </summary>
         /// <typeparam name="T">The type of the saga to add.</typeparam>
         public void AddTransientSaga<T>() where T : class, ISaga

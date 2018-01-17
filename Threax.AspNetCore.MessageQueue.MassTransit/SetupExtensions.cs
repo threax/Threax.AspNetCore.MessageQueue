@@ -76,7 +76,7 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
                     h.Password(options.Password);
                 });
 
-                if (!options.WriteOnly)
+                if (options.OpenQueue)
                 {
                     sbc.ReceiveEndpoint(host, options.QueueName, e =>
                     {
