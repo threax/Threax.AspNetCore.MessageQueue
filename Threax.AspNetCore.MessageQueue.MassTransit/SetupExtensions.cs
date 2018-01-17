@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -93,11 +94,11 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
         /// Activate the connection to rabbitmq over mass transit. Due to the way this is implemented it is not thread safe, however
         /// it should really only be called from Configure anyway, so this should be ok.
         /// </summary>
-        /// <param name="serviceProvider">The service provider to use to handle mass transit integration.</param>
+        /// <param name="appBuilder">The app builder for the app.</param>
         /// <returns>The passed in service provider.</returns>
-        public static IServiceProvider UseThreaxMassTransit(this IServiceProvider serviceProvider)
+        public static IApplicationBuilder UseThreaxMassTransit(this IApplicationBuilder appBuilder)
         {
-            SetupExtensions.serviceProvider = serviceProvider;
+            SetupExtensions.serviceProvider = appBuilder.ApplicationServices;
 
             var bus = serviceProvider.GetRequiredService<IBusControl>();
             bus.Start();
@@ -107,7 +108,7 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
 
             SetupExtensions.serviceProvider = null;
 
-            return serviceProvider;
+            return appBuilder;
         }
     }
 }
