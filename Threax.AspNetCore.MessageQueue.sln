@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threax.AspNetCore.MessageQueue", "Threax.AspNetCore.MessageQueue\Threax.AspNetCore.MessageQueue.csproj", "{749F0FD0-5A5C-4C40-941D-304B0FE00512}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threax.AspNetCore.MessageQueue.MassTransit", "Threax.AspNetCore.MessageQueue.MassTransit\Threax.AspNetCore.MessageQueue.MassTransit.csproj", "{4278FA8F-738E-4F44-B908-7DBD26E58ADB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{749F0FD0-5A5C-4C40-941D-304B0FE00512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749F0FD0-5A5C-4C40-941D-304B0FE00512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{749F0FD0-5A5C-4C40-941D-304B0FE00512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4278FA8F-738E-4F44-B908-7DBD26E58ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4278FA8F-738E-4F44-B908-7DBD26E58ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4278FA8F-738E-4F44-B908-7DBD26E58ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4278FA8F-738E-4F44-B908-7DBD26E58ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
