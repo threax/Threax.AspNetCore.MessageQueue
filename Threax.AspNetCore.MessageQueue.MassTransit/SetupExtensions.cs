@@ -5,8 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Threax.AspNetCore.MessageQueue;
+using Threax.AspNetCore.MessageQueue.MassTransit;
 
-namespace Threax.AspNetCore.MessageQueue.MassTransit
+namespace Microsoft.Extensions.DependencyInjection.Extensions
 {
     public static class SetupExtensions
     {

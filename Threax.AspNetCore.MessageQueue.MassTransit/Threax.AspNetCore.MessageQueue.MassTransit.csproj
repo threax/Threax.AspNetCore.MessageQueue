@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-pre1</Version>
+    <Version>1.0.0-pre2</Version>
     <Authors>Andrew Piper</Authors>
     <Description>A standardized implementation of using MassTransit over RabbitMQ for sending messages.</Description>
     <PackageLicenseUrl>https://raw.githubusercontent.com/threax/Threax.AspNetCore.MessageQueue/master/LICENSE</PackageLicenseUrl>
