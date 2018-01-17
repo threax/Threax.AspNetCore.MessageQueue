@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/threax/Threax.AspNetCore.MessageQueue</RepositoryUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/threax/Threax.AspNetCore.MessageQueue/master/LICENSE</PackageLicenseUrl>
     <Company />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
