@@ -53,7 +53,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         {
             get
             {
-                return Consumers.Count != 0 && Sagas.Count != 0;
+                return Consumers.Count != 0 || Sagas.Count != 0;
             }
         }
 
