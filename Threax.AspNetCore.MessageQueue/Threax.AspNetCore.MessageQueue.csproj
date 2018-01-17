@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-pre2</Version>
+    <Version>1.0.0-pre3</Version>
     <Authors>Andrew Piper</Authors>
     <Description>Abstractions for sending messages on a message queue following a convention.</Description>
     <PackageProjectUrl>https://github.com/threax/Threax.AspNetCore.MessageQueue</PackageProjectUrl>
@@ -10,6 +10,14 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/threax/Threax.AspNetCore.MessageQueue/master/LICENSE</PackageLicenseUrl>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Threax.AspNetCore.MessageQueue.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Threax.AspNetCore.MessageQueue.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
