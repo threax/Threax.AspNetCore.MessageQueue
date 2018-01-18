@@ -68,22 +68,38 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
                 }
             });
 
-            services.AddSingleton<IBusControl>(s => Bus.Factory.CreateUsingRabbitMq(sbc =>
+            if (options.Host == "InMemory")
             {
-                var host = sbc.Host(new Uri(options.Host), h =>
+                services.AddSingleton<IBusControl>(s => Bus.Factory.CreateUsingInMemory(o =>
                 {
-                    h.Username(options.Username);
-                    h.Password(options.Password);
-                });
-
-                if (options.OpenQueue)
-                {
-                    sbc.ReceiveEndpoint(host, options.QueueName, e =>
+                    if (options.OpenQueue)
                     {
-                        e.LoadFrom(serviceProvider);
+                        o.ReceiveEndpoint(options.QueueName, e =>
+                        {
+                            e.LoadFrom(serviceProvider);
+                        });
+                    }
+                }));
+            }
+            else
+            {
+                services.AddSingleton<IBusControl>(s => Bus.Factory.CreateUsingRabbitMq(sbc =>
+                {
+                    var host = sbc.Host(new Uri(options.Host), h =>
+                    {
+                        h.Username(options.Username);
+                        h.Password(options.Password);
                     });
-                }
-            }));
+
+                    if (options.OpenQueue)
+                    {
+                        sbc.ReceiveEndpoint(host, options.QueueName, e =>
+                        {
+                            e.LoadFrom(serviceProvider);
+                        });
+                    }
+                }));
+            }
             services.AddSingleton<IPublishEndpoint>(s => s.GetRequiredService<IBusControl>());
             services.AddTransient(typeof(IEventQueue<>), typeof(MassTransitEventQueue<>));
 

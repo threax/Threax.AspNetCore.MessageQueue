@@ -28,7 +28,8 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
     public class MassTransitOptions
     {
         /// <summary>
-        /// The url of the rabbitmq host.
+        /// The url of the rabbitmq host. If you set this to "InMemory" (case sensitive) the in memory queue will be used. This is useful if you
+        /// cannot run the RabbitMQ service for some reason.
         /// </summary>
         public String Host { get; set; }
 
