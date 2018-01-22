@@ -4,11 +4,12 @@ using MassTransit.Saga;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Threax.AspNetCore.MessageQueue.MassTransit
 {
-    enum RegistrationType
+    enum Lifetime
     {
         Singleton,
         Transient,
@@ -19,7 +20,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
     {
         public Type Type { get; set; }
 
-        public RegistrationType RegistrationType { get; set; }
+        public Lifetime Lifetime { get; set; }
     }
 
     /// <summary>
@@ -49,6 +50,15 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         /// </summary>
         public String QueueName { get; set; }
 
+        /// <summary>
+        /// The assemblies to auto load consumers and sagas from. Will load all implementations of IConsumer or ISaga.
+        /// Defaults to the entry assembly, you can add assemblies to the list, or clear it and customize what you need.
+        /// All types found this way will be loaded scoped. If you define a scope for a consumer or saga manually it will keep
+        /// that registration.
+        /// </summary>
+        [JsonIgnore]
+        public List<Assembly> AutoLoadAssemblies { get; private set; } = new List<Assembly>() { Assembly.GetEntryAssembly() };
+
         [JsonIgnore]
         internal bool OpenQueue
         {
@@ -73,7 +83,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Consumers.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Singleton
+                Lifetime = Lifetime.Singleton
             });
         }
 
@@ -86,7 +96,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Consumers.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Scoped
+                Lifetime = Lifetime.Scoped
             });
         }
 
@@ -99,7 +109,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Consumers.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Transient
+                Lifetime = Lifetime.Transient
             });
         }
 
@@ -112,7 +122,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Sagas.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Singleton
+                Lifetime = Lifetime.Singleton
             });
         }
 
@@ -125,7 +135,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Sagas.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Scoped
+                Lifetime = Lifetime.Scoped
             });
         }
 
@@ -138,7 +148,7 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
             Sagas.Add(new MassTransitServiceRegistration()
             {
                 Type = typeof(T),
-                RegistrationType = RegistrationType.Transient
+                Lifetime = Lifetime.Transient
             });
         }
     }
