@@ -35,7 +35,10 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
                 IEnumerable<Type> allTypes = new Type[0];
                 foreach(var assembly in options.AutoLoadAssemblies)
                 {
-                    allTypes = allTypes.Concat(assembly.ExportedTypes);
+                    if (assembly != null)
+                    {
+                        allTypes = allTypes.Concat(assembly.ExportedTypes);
+                    }
                 }
                 foreach(var consumer in options.Consumers)
                 {
