@@ -115,10 +115,28 @@ namespace Microsoft.Extensions.DependencyInjection.Extensions
             {
                 services.AddSingleton<IBusControl>(s => Bus.Factory.CreateUsingRabbitMq(sbc =>
                 {
-                    var host = sbc.Host(new Uri(options.Host), h =>
+                    var uriBuilder = new UriBuilder(options.Host);
+
+                    if (options.UseSsl)
+                    {
+                        uriBuilder.Port = options.SslPort;
+                    }
+
+                    var host = sbc.Host(uriBuilder.Uri, h =>
                     {
                         h.Username(options.Username);
                         h.Password(options.Password);
+
+                        if (options.UseSsl)
+                        {
+                            h.UseSsl(o =>
+                            {
+                                o.UseCertificateAsAuthenticationIdentity = false;
+                                o.ServerName = uriBuilder.Host;
+                                o.Protocol = System.Security.Authentication.SslProtocols.Tls12;
+                                options.ConfigureSsl?.Invoke(o);
+                            });
+                        }
                     });
 
                     if (options.OpenQueue)

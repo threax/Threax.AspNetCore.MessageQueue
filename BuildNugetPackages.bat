@@ -6,6 +6,6 @@ mkdir %OUT%
 pushd %BASE%
 dotnet build -c Release
 pushd %SEARCH%
-FOR /R %SEARCH% %%I in (Release\*.nupkg) DO copy %%I %OUT%
+FOR /R %SEARCH% %%I in (Release\*.nupkg) DO move /Y %%I %OUT%
 popd
 popd

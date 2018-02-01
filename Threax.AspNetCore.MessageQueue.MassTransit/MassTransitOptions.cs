@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
+using MassTransit.RabbitMqTransport;
 using MassTransit.Saga;
 using Newtonsoft.Json;
 using System;
@@ -33,6 +34,23 @@ namespace Threax.AspNetCore.MessageQueue.MassTransit
         /// cannot run the RabbitMQ service for some reason.
         /// </summary>
         public String Host { get; set; }
+
+        /// <summary>
+        /// Set this to true to use rabbitmq over ssl.
+        /// </summary>
+        public bool UseSsl { get; set; }
+
+        /// <summary>
+        /// The port to use for ssl connections. Defaults to 5671, which is the rabbitmq default.
+        /// </summary>
+        public int SslPort { get; set; } = 5671;
+
+        /// <summary>
+        /// Set this to an action to be called during the UseSsl call. This will be called after everything else
+        /// so the settings applied here will override anything set automatically.
+        /// </summary>
+        [JsonIgnore]
+        public Action<IRabbitMqSslConfigurator> ConfigureSsl;
 
         /// <summary>
         /// The username.
